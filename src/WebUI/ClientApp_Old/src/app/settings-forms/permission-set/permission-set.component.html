@@ -1,0 +1,10 @@
+<app-global-form
+  [form]="form"
+  [fields]="fields"
+  submitButtonLabel="Submit"
+  cancelEditingButtonLabel="Cancel Edit"
+  (onSubmitForm)="onSubmit()"
+  (cancelEditingClick)="bookingCancel()"
+  [(model)]="model"
+  [lastModifyDate]="lastModifyDate"
+></app-global-form>

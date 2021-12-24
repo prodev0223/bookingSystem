@@ -1,0 +1,12 @@
+<app-global-form
+  [userFriendlyMessage]="userFriendlyMessage"
+  [roomName]="roomName"
+  [form]="form"
+  [fields]="fields"
+  [submitButtonLabel]="submitLabel"
+  [cancelEditingButtonLabel]="cancelEditingButtonLabel"
+  (onSubmitForm)="onSubmit()"
+  (cancelEditingClick)="bookingCancel()"
+  [(model)]="model"
+  [lastModifyDate]="lastModifyDate"
+></app-global-form>

@@ -1,0 +1,24 @@
+<nz-form-item>
+  <nz-form-label
+    [nzSm]="4"
+    [nzXs]="24"
+    [nzFor]="to.key"
+    [nzRequired]="to.required"
+    [nzTooltipTitle]="to.extraInfo"
+  >
+    {{to.label}}
+  </nz-form-label>
+  <nz-form-control
+    [nzSm]="14"
+    [nzXs]="24"
+    nzErrorTip="Please select your gender!"
+  >
+    <label
+      nz-checkbox
+      [nzIndeterminate]="to.indeterminate && formControl.value == null"
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+    >
+    </label>
+  </nz-form-control>
+</nz-form-item>

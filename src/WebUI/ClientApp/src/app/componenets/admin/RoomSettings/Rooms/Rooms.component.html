@@ -1,0 +1,392 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Room Settings</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a> <i class="fas fa-home"></i> Admin</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a routerLink="/admin/roomsettings/rooms" onClick="return false;"
+                >Room Settings</a
+              >
+            </li>
+            <li class="breadcrumb-item active">Rooms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="ngxTableHeader">
+                  <ul class="header-buttons-left ms-0 mb-0">
+                    <li class="dropdown">
+                      <h2>
+                        <strong>Rooms</strong>
+                      </h2>
+                    </li>
+                    <li class="dropdown m-l-20">
+                      <label for="search-input"
+                        ><i class="material-icons search-icon">search</i></label
+                      >
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        aria-label="Search box"
+                        (keyup)="filterDatatable($event)"
+                        class="browser-default search-field"
+                      />
+                    </li>
+                  </ul>
+                  <ul class="header-buttons">
+                    <li>
+                      <button
+                        mat-mini-fab
+                        color="primary"
+                        (click)="AddNewRoom(template)"
+                      >
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                    </li>
+                    <li class="ms-2">
+                      <button
+                        mat-mini-fab
+                        color="warn"
+                        (click)="BulkDeleteRooms()"
+                      >
+                        <mat-icon class="col-white">delete</mat-icon>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                <ngx-datatable
+                  #table
+                  class="material"
+                  [rows]="dt_datas"
+                  [columns]="columns"
+                  [sortType]="'multi'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'60'"
+                  [limit]="10"
+                  [selected]="selected"
+                  (select)="onSelect($event)"
+                  [selectAllRowsOnPage]="false"
+                  [selectionType]="SelectionType.checkbox"
+                >
+                  <ngx-datatable-column
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                    [resizeable]="false"
+                    [headerCheckboxable]="true"
+                    [checkboxable]="true"
+                  >
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="name">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Name</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="shortName">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Short Name</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="chineseName">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Chinese Name</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="mappingKey">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Mapping Key</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="start" [width]="10">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Start</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value | date: "HH:mm" }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="end">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >End</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value | date: "HH:mm" }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <!-- action buttons -->
+                  <ngx-datatable-column name="Actions" sortable="false">
+                    <ng-template
+                      let-value="value"
+                      let-row="row"
+                      let-rowIndex="rowIndex"
+                      ngx-datatable-cell-template
+                    >
+                      <span>
+                        <button
+                          mat-icon-button
+                          (click)="EditRoom(row, template)"
+                        >
+                          <mat-icon>mode_edit</mat-icon>
+                        </button>
+                        <button
+                          color="warn"
+                          mat-icon-button
+                          (click)="DeleteRoom(row)"
+                        >
+                          <mat-icon>delete_forever</mat-icon>
+                        </button>
+                      </span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ formCaption }}</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="roomForm">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" required />
+            <mat-error *ngIf="fh.isRequired('name')">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Short Name</mat-label>
+            <input matInput formControlName="shortName" required />
+            <mat-error *ngIf="fh.isRequired('shortName')">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Chinese Name</mat-label>
+            <input matInput formControlName="chineseName" required />
+            <mat-error *ngIf="fh.isRequired('chineseName')">
+              Chinese Name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Mapping Key</mat-label>
+            <input matInput formControlName="mappingKey" required />
+            <mat-error *ngIf="fh.isRequired('mappingKey')">
+              Mapping Key is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+          <label class="col-sm-2 col-form-label">Start</label>
+          <mat-form-field class="example-full-width mb-3">
+            <input
+              matInput
+              formControlName="startDate"
+              [owlDateTime]="startTimer"
+              [owlDateTimeTrigger]="startTimer"
+            />
+            <mat-icon
+              matSuffix
+              [owlDateTimeTrigger]="endTimer"
+              class="date-icon"
+              >schedule</mat-icon
+            >
+            <owl-date-time
+              [pickerType]="'timer'"
+              [stepMinute]="5"
+              #startTimer
+            ></owl-date-time>
+            <mat-error *ngIf="fh.isRequired('startDate')">
+              Please select start time
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+          <label class="col-sm-2 col-form-label">End</label>
+          <mat-form-field class="example-full-width mb-3">
+            <input
+              matInput
+              formControlName="endDate"
+              [owlDateTime]="endTimer"
+              [owlDateTimeTrigger]="endTimer"
+            />
+            <mat-icon
+              matSuffix
+              [owlDateTimeTrigger]="endTimer"
+              class="date-icon"
+              >schedule</mat-icon
+            >
+            <owl-date-time
+              [pickerType]="'timer'"
+              [stepMinute]="5"
+              #endTimer
+            ></owl-date-time>
+            <mat-error *ngIf="fh.isRequired('endDate')">
+              Please select start time
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Time Span</mat-label>
+            <input
+              matInput
+              type="number"
+              max="99999"
+              min="1"
+              formControlName="timeSpanMinutes"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Room open for</mat-label>
+            <mat-select formControlName="bookingUserModeId">
+              <mat-option [value]="0">Anyone</mat-option>
+              <mat-option [value]="1">Admin</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>In Advance Day</mat-label>
+            <input
+              matInput
+              type="number"
+              max="99999"
+              min="0"
+              formControlName="inAdvanceDay"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Auto Release (min)</mat-label>
+            <input
+              matInput
+              type="number"
+              max="99999"
+              min="1"
+              formControlName="timeSpanMinutes"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Default Booking Type</mat-label>
+            <mat-select formControlName="defaultBookingTypeId">
+              <mat-option [value]="2"> Anyone With Card </mat-option>
+              <mat-option [value]="3"> User With Card </mat-option>
+              <mat-option [value]="4"> Free Access </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div
+        class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+        *ngFor="let item of roomExtraFields; let iIndex = index"
+      >
+        <mat-form-field class="example-full-width mb-3" appearance="fill">
+          <mat-label>{{ item.key }}</mat-label>
+          <input
+            matInput
+            [type]="item.type == '2' ? 'number' : 'text'"
+            [(ngModel)]="item.value"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="example-button-row">
+      <button
+        type="button"
+        color="primary"
+        mat-raised-button
+        (click)="SaveRoom()"
+        [disabled]="!roomForm.valid"
+      >
+        Save
+      </button>
+      <button
+        color="warn"
+        type="button"
+        mat-raised-button
+        (click)="roomModalRef?.hide()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,217 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Room Settings</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a> <i class="fas fa-home"></i> Admin</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a routerLink="/admin/roomsettings/rooms" onClick="return false;"
+                >Room Settings</a
+              >
+            </li>
+            <li class="breadcrumb-item active">Roles</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="ngxTableHeader">
+                  <ul class="header-buttons-left ms-0 mb-0">
+                    <li class="dropdown">
+                      <h2>
+                        <strong>Roles</strong>
+                      </h2>
+                    </li>
+                    <li class="dropdown m-l-20">
+                      <label for="search-input"
+                        ><i class="material-icons search-icon">search</i></label
+                      >
+                      <input
+                        placeholder="Search"
+                        type="text"
+                        class="browser-default search-field"
+                        (keyup)="filterDatatable($event)"
+                        aria-label="Search box"
+                      />
+                    </li>
+                  </ul>
+                  <ul class="header-buttons">
+                    <li>
+                      <button
+                        mat-mini-fab
+                        color="primary"
+                        (click)="AddNewUserRole(template)"
+                      >
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                    </li>
+                    <li class="ms-2">
+                      <button
+                        mat-mini-fab
+                        color="warn"
+                        (click)="BulkDeleteUserRole()"
+                      >
+                        <mat-icon class="col-white">delete</mat-icon>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                <ngx-datatable
+                  #table
+                  class="material"
+                  [rows]="dt_datas"
+                  [columns]="columns"
+                  [columnMode]="ColumnMode.flex"
+                  [sortType]="'multi'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'60'"
+                  [limit]="10"
+                  [selected]="selected"
+                  (select)="onSelect($event)"
+                  [selectAllRowsOnPage]="false"
+                  [selectionType]="SelectionType.checkbox"
+                >
+                  <ngx-datatable-column
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                    [resizeable]="false"
+                    [headerCheckboxable]="true"
+                    [checkboxable]="true"
+                    [flexGrow]="1"
+                  >
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="name" [flexGrow]="8">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Role Name</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <!-- action buttons -->
+                  <ngx-datatable-column
+                    name="Actions"
+                    sortable="false"
+                    [flexGrow]="1"
+                  >
+                    <ng-template
+                      let-value="value"
+                      let-row="row"
+                      let-rowIndex="rowIndex"
+                      ngx-datatable-cell-template
+                    >
+                      <span>
+                        <button
+                          mat-icon-button
+                          (click)="EditUserRole(row, template)"
+                        >
+                          <mat-icon>mode_edit</mat-icon>
+                        </button>
+                        <button
+                          color="warn"
+                          mat-icon-button
+                          (click)="DeleteUserRole(row)"
+                        >
+                          <mat-icon>delete_forever</mat-icon>
+                        </button>
+                      </span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ formCaption }}</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="userRoleForm">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3">
+            <mat-label>User Role</mat-label>
+            <input matInput formControlName="name" required />
+            <mat-error *ngIf="!name">Please enter user role </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3">
+            <mat-label>Room Set</mat-label>
+            <mat-select formControlName="roomSetId" required>
+              <mat-option *ngFor="let item of roomsList" [value]="item.id">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="fh.isRequired('roomSetId')"
+              >Please select Room Set
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3">
+            <mat-label>Permission Set</mat-label>
+            <mat-select formControlName="permissionSetId" required>
+              <mat-option
+                *ngFor="let item of permissionsList"
+                [value]="item.id"
+              >
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="fh.isRequired('permissionSetId')"
+              >Please select Permission Set
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="example-button-row">
+      <button
+        type="submit"
+        color="primary"
+        mat-raised-button
+        (click)="SaveUserRole()"
+        [disabled]="!userRoleForm.valid"
+      >
+        Save
+      </button>
+      <button
+        color="warn"
+        type="button"
+        mat-raised-button
+        (click)="roleGroupModalRef?.hide()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

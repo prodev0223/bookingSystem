@@ -1,0 +1,9 @@
+site_name: Docs
+nav:
+    - Home: index.md
+    - Bugs: bugs.md
+    - Implement: implement.md
+plugins:
+    - with-pdf:
+        enabled_if_env: ENABLE_PDF_EXPORT
+    #- pdf-export

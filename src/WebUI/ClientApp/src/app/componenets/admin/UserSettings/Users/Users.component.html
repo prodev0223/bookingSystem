@@ -1,0 +1,149 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">User Settings</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a> <i class="fas fa-home"></i> Admin</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a routerLink="/admin/usersettings/users" onClick="return false;"
+                >User Settings</a
+              >
+            </li>
+            <li class="breadcrumb-item active">Users</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="ngxTableHeader">
+                  <ul class="header-buttons-left ms-0 mb-0">
+                    <li class="dropdown">
+                      <h2>
+                        <strong>Users</strong>
+                      </h2>
+                    </li>
+                    <li class="dropdown m-l-20">
+                      <label for="search-input"
+                        ><i class="material-icons search-icon">search</i></label
+                      >
+                      <input
+                        placeholder="Search"
+                        type="text"
+                        class="browser-default search-field"
+                        (keyup)="filterDatatable($event)"
+                        aria-label="Search box"
+                      />
+                    </li>
+                  </ul>
+                </div>
+                <ngx-datatable
+                  #table
+                  class="material"
+                  [rows]="dt_datas"
+                  [columns]="columns"
+                  [columnMode]="ColumnMode.flex"
+                  [sortType]="'multi'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'60'"
+                  [limit]="10"
+                >
+                  <ngx-datatable-column name="username" [flexGrow]="8">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Username</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <!-- action buttons -->
+                  <ngx-datatable-column
+                    name="Actions"
+                    sortable="false"
+                    [flexGrow]="1"
+                  >
+                    <ng-template
+                      let-value="value"
+                      let-row="row"
+                      let-rowIndex="rowIndex"
+                      ngx-datatable-cell-template
+                    >
+                      <span>
+                        <button
+                          mat-icon-button
+                          (click)="UpdateUserGroup(row, template)"
+                        >
+                          <mat-icon>mode_edit</mat-icon>
+                        </button>
+                      </span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ formCaption }}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <label class="control-label"><h6>Select Multiple UserGroup</h6></label>
+      <div class="row">
+        <div
+          *ngFor="let item of groupList"
+          class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"
+        >
+          <mat-checkbox
+            class="example-margin ms-0"
+            [(ngModel)]="item.isSelected"
+            [ngModelOptions]="{ standalone: true }"
+            (click)="AddRemoveUserGroup(!item.isSelected, item.id)"
+            >{{ item.name }}</mat-checkbox
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="example-button-row">
+      <button
+        type="submit"
+        color="primary"
+        mat-raised-button
+        [disabled]="!IsFormValid"
+        (click)="SaveUserGroups()"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        color="warn"
+        mat-raised-button
+        (click)="userGroupModalRef?.hide()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

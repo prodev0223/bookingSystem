@@ -1,0 +1,108 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Room Settings</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a> <i class="fas fa-home"></i> Admin</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a routerLink="/admin/roomsettings/rooms" onClick="return false;"
+                >Room Settings</a
+              >
+            </li>
+            <li class="breadcrumb-item active">Room Extra Fields</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>Room Extra Fields</h2>
+          </div>
+          <div class="body">
+            <!-- Add content here -->
+            <form class="" [formGroup]="extraFieldForm">
+              <div
+                *ngFor="let group of fieldArray.controls; let iIndex = index"
+                formArrayName="roomExtraInfoTemplate"
+              >
+                <div [formGroupName]="iIndex">
+                  <div class="row">
+                    <div class="col-5">
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="fill"
+                      >
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="key" required />
+                        <mat-error
+                          *ngIf="group.get('key').hasError('required')"
+                        >
+                          Name is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-5">
+                      <mat-form-field
+                        class="example-full-width mb-3"
+                        appearance="fill"
+                      >
+                        <mat-label>Select Type</mat-label>
+                        <mat-select formControlName="type" required>
+                          <mat-option [value]=""> --select-- </mat-option>
+                          <mat-option [value]="1"> String </mat-option>
+                          <mat-option [value]="2"> Number </mat-option>
+                        </mat-select>
+                        <mat-error
+                          *ngIf="group.get('type').hasError('required')"
+                        >
+                          Type is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <button
+                        color="warn"
+                        mat-icon-button
+                        (click)="RemoveField(iIndex)"
+                      >
+                        <mat-icon>delete_forever</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <button
+                  class="msr-3"
+                  (click)="AddMoreFields()"
+                  mat-raised-button
+                  color="accent"
+                >
+                  Add more extra fields
+                </button>
+                <button
+                  color="primary"
+                  mat-raised-button
+                  (click)="saveExtraFields()"
+                  [disabled]="!extraFieldForm.valid"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

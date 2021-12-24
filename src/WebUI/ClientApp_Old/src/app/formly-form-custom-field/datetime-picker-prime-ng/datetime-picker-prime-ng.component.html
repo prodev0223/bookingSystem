@@ -1,0 +1,11 @@
+<nz-form-item>
+  <nz-form-label [nzSm]="4" [nzXs]="24" [nzRequired]="to.required"
+
+                 [nzTooltipTitle]="to.extraInfo"
+  >{{to.label}}</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <nz-date-picker [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm" [nzDisabled]="to.readonly"
+                    [formControl]="formControl"
+                    [formlyAttributes]="field"></nz-date-picker>
+  </nz-form-control>
+</nz-form-item>

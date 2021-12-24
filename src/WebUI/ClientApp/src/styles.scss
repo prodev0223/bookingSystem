@@ -1,0 +1,16 @@
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+.success-snackbar {
+  background: #22c55e;
+}
+
+.error-snackbar {
+  background: #ff4d4d;
+}
+
+.fc-bgevent {
+  background-color: aqua;
+}

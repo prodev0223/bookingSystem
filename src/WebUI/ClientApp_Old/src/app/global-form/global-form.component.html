@@ -1,0 +1,25 @@
+<div class="m-4">
+  <nz-form-control [nzOffset]="4" [nzSpan]="12">
+    <div *ngIf="userFriendlyMessage" class="text-1xl">{{userFriendlyMessage}}</div>
+    <div *ngIf="roomName" class="text-1xl">{{roomName}}</div>
+  </nz-form-control>
+  <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <formly-form [form]="form" [fields]="fields" [(model)]="model" (modelChange)="updateChanges()"></formly-form>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="4" [nzSpan]="12">
+        <button nzSize="large" nzType="primary" nz-button type="submit" class=""
+                [disabled]="submitButtonDisabled"
+                [hidden]="hideSubmitButton">{{submitButtonLabel}}</button>
+        <button nzDanger nzSize="large" nzType="primary" (click)="endEditing()"
+                [hidden]="hideCancelEditingButton"
+                class="p-button-danger" nz-button type="button"
+        >{{cancelEditingButtonLabel}}
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <div *ngIf="lastModifyDate" class="text-right">Last modify: {{lastModifyDate|myDatetime}}</div>
+
+</div>
+

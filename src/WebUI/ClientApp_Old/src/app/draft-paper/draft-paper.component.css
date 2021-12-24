@@ -1,0 +1,10 @@
+mat-sidenav {
+  width: 200px;
+}
+.example-sidenav-content {
+  display: flex;
+  height: calc(100vh - 80px);
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,98 @@
+<br />
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened>
+    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+      <div class="btn-group" btnRadioGroup [(ngModel)]="selDateMode">
+        <label
+          class="btn btn-outline-primary"
+          btnRadio="D"
+          tabindex="0"
+          role="button"
+          name="txtDateRange"
+          (click)="setCalenderView('D')"
+          >Daily</label
+        >
+        <label
+          class="btn btn-outline-primary"
+          btnRadio="W"
+          tabindex="1"
+          role="button"
+          name="txtDateRange"
+          (click)="setCalenderView('W')"
+          >Weekly</label
+        >
+        <label
+          class="btn btn-outline-primary"
+          btnRadio="M"
+          tabindex="2"
+          role="button"
+          name="txtDateRange"
+          (click)="setCalenderView('M')"
+          >Monthly</label
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-12 form-group">
+        <nz-date-picker
+          nzInline
+          [nzMode]="calendarView"
+          [(ngModel)]="selectedDate"
+          (ngModelChange)="onDateChange($event)"
+        ></nz-date-picker>
+      </div>
+    </div>
+    <div
+      *ngIf="selDateMode != 'D'"
+      class="form-group col-md-12 col-lg-12 col-sm-12"
+    >
+      <p class="fw-bold">Rooms</p>
+      <ng-select
+        [items]="roomsList"
+        bindLabel="name"
+        bindValue="id"
+        placement="bottom"
+        tooltip="Type to search room by name."
+        [clearable]="false"
+        bindLabel="name"
+        [(ngModel)]="selRoomId"
+        (ngModelChange)="onRoomSelected()"
+      ></ng-select>
+    </div>
+    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+      <p-colorPicker
+        [(ngModel)]="availableColor"
+        (onChange)="availableColorChange()"
+      ></p-colorPicker>
+      Available
+    </div>
+    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+      <p-colorPicker
+        [(ngModel)]="confirmedColor"
+        (onChange)="confirmedColorChange()"
+      ></p-colorPicker>
+      Confirmed
+    </div>
+    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+      <p-colorPicker
+        [(ngModel)]="unavailableColor"
+        (onChange)="confirmedColorChange()"
+      ></p-colorPicker>
+      Unavailable
+    </div>
+    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+      <p-colorPicker
+        [(ngModel)]="closedColor"
+        (onChange)="confirmedColorChange()"
+      ></p-colorPicker>
+      Closed
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="myHomePageGrid">
+      <full-calendar
+        #fullCalendar
+        [options]="calendarOptions"
+      ></full-calendar></div
+  ></mat-drawer-content>
+</mat-drawer-container>

@@ -1,0 +1,134 @@
+<div class="grid myHomePageGrid" (window:resize)="onResize($event)" >
+  <mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" [mode]="navBarMode" opened (openedChange)="listenNavPanel($event)">
+      <!--<p-dropdown [options]="roomDoorDropdown()" optionLabel="name"></p-dropdown>-->
+	  <div class="container">
+		<div class="row">
+			<div class="col">
+        <div class="hidden">
+				<p-dropdown [style]="{'minWidth':'100%'}" [options]="calViewList" optionLabel="name" [(ngModel)]="selectedCalView" [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" (onChange)="onCalViewChange()"></p-dropdown>
+        </div>
+        <nz-radio-group [(ngModel)]="selectedCalView" nzSize="large" (ngModelChange)="onCalViewChange()">
+          <label nz-radio-button [nzValue]="{name: 'Daily', code: 'resourceTimeGridDay', smallCalCode: 'date'}">Daily</label>
+          <label nz-radio-button [nzValue]="{name: 'Weekly', code: 'timeGridWeek', smallCalCode: 'week'}">Weekly</label>
+        </nz-radio-group>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<nz-date-picker
+				  [nzDisabledDate]="disabledEndDate"
+				  [nzBorderless]="true" nzInline [nzShowToday]="true" [nzMode]="smallCalMode" [(ngModel)]="smallCalDate" (ngModelChange)="getWeekInfo($event)" [nzSize]="smallCalendarSize"></nz-date-picker>
+			</div>
+		</div>
+		<div class="row hidden">
+			<div class="col">
+        <button nz-button nzType="primary" (click)="gotoToday()">Today</button>
+			</div>
+			<div class="col-auto">
+				<p-button label="" icon="pi pi-chevron-left" iconPos="center" (onClick)="prevCal()"></p-button>
+				<p-button label="" icon="pi pi-chevron-right" iconPos="center" (onClick)="nextCal()"></p-button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p-dropdown [style]="{'minWidth':'100%'}" [options]="myRoomList" optionLabel="name" [(ngModel)]="selectedRoom" (onChange)="onRoomChange()" scrollHeight="500px"></p-dropdown>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col">
+      <nz-select [style]="{'width': '280px'}"
+        [nzMaxTagPlaceholder]="tagPlaceHolder"
+        nzMode="multiple"
+        nzPlaceHolder="Showing all buildings"
+        [(ngModel)]="listOfSelectedBuildings"
+        (ngModelChange)="towerChange()"
+      >
+        <nz-option
+          [nzHide]="!isNotSelected(item.code)"
+          *ngFor="let item of buildingList" [nzLabel]="item.name" [nzValue]="item.code"></nz-option>
+
+      </nz-select>
+      <ng-template #tagPlaceHolder let-selectedList>{{ selectedList.length }} more</ng-template>
+      </div>
+    </div>
+
+      <div class="row">
+      <div class="col">
+        <button class="w-100" pButton type="button" (click)="prevRoomPage()" label="Prev" [disabled]="!havePrev"></button>
+			</div>
+			<div class="col">
+				<button class="w-100" pButton type="button" (click)="nextRoomPage()" label="Next" [disabled]="!haveNext"></button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-5">
+				Name:
+			</div>
+			<div class="col">
+				{{selectedRoomName}}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-5">
+				Code:
+			</div>
+			<div class="col">
+				{{selectedRoomCode}}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-5">
+				Total Room:
+			</div>
+			<div class="col">
+				{{ totalRoomCount }}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-5">
+				Current Page:
+			</div>
+			<div class="col">
+				{{ currentPage }}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-5">
+				Total Page:
+			</div>
+			<div class="col">
+				{{ totalPage }}
+			</div>
+		</div>
+
+			<div class="grid grid-flow-col grid-cols-1 grid-rows-3 gap-2 mt-1 place-self-end">
+				<div>
+				  <p-colorPicker [(ngModel)]="availableColor" (onChange)="availableColorChange()"></p-colorPicker>
+				  Available
+				</div>
+				<div>
+				  <p-colorPicker [(ngModel)]="confirmedColor" (onChange)="confirmedColorChange()"></p-colorPicker>
+				  Confirmed
+				</div>
+        <div>
+          <p-colorPicker [(ngModel)]="closedColor" (onChange)="confirmedColorChange()"></p-colorPicker>
+          Closed
+        </div>
+			</div>
+	  </div>
+    </mat-drawer>
+    <div class="myHomePageGrid">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+
+  </mat-drawer-container>
+</div>
+<button class="float-menu hover:bg-red-700 flex-shrink-0 bg-purple-600 text-white text-base font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200" (click)="drawer.toggle();" [hidden]="showaction">
+</button>

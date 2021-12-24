@@ -1,0 +1,21 @@
+::ng-deep full-calendar.fc button.fc-today-button,
+::ng-deep full-calendar.fc button.fc-preRooms-button,
+::ng-deep full-calendar.fc button.fc-nextRooms-button {
+  background: 0 0 !important;
+  color: #2c303b !important;
+  border: 1px solid #6777ef !important;
+}
+
+::ng-deep full-calendar.fc button.fc-today-button:hover,
+::ng-deep full-calendar.fc button.fc-today-button:active,
+::ng-deep full-calendar.fc button.fc-today-button:not(:disabled):active,
+::ng-deep full-calendar.fc button.fc-preRooms-button:not(:disabled):active,
+::ng-deep full-calendar.fc button.fc-nextRooms-button:not(:disabled):active,
+::ng-deep full-calendar.fc button.fc-preRooms-button:active,
+::ng-deep full-calendar.fc button.fc-nextRooms-button:active,
+::ng-deep full-calendar.fc button.fc-preRooms-button:hover,
+::ng-deep full-calendar.fc button.fc-nextRooms-button:hover {
+  color: #fff !important;
+  background: #6777ef !important;
+  border: 1px solid #fff !important;
+}

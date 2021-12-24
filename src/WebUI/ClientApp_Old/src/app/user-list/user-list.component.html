@@ -1,0 +1,20 @@
+<div class="p-grid  h-full">
+  <!--
+  <button nzSize="large" nzType="primary" nz-button class="" (click)="newClick()">>New</button>
+  <button nzDanger nzSize="large" nzType="primary" [hidden]="!deleteVisible" (click)="deleteClick()" class="p-button-danger" nz-button type="button">Delete</button>
+  -->
+  <div class="p-col  h-full">
+    <ag-grid-angular
+      #aggrid
+      [ngStyle]="{ 'width': '100%'}"
+      class="ag-theme-alpine h-full"
+
+      [gridOptions]="gridOptions"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      (rowClicked)="myRowClick($event)"
+      [frameworkComponents]="frameworkComponents"
+    >
+    </ag-grid-angular>
+  </div>
+</div>

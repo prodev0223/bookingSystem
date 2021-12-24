@@ -1,0 +1,214 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Room Settings</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a> <i class="fas fa-home"></i> Admin</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a routerLink="/admin/roomsettings/rooms" onClick="return false;"
+                >Room Settings</a
+              >
+            </li>
+            <li class="breadcrumb-item active">Room Groups</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="ngxTableHeader">
+                  <ul class="header-buttons-left ms-0 mb-0">
+                    <li class="dropdown">
+                      <h2>
+                        <strong>Room Groups</strong>
+                      </h2>
+                    </li>
+                    <li class="dropdown m-l-20">
+                      <label for="search-input"
+                        ><i class="material-icons search-icon">search</i></label
+                      >
+                      <input
+                        placeholder="Search"
+                        type="text"
+                        class="browser-default search-field"
+                        (keyup)="filterDatatable($event)"
+                        aria-label="Search box"
+                      />
+                    </li>
+                  </ul>
+                  <ul class="header-buttons">
+                    <li>
+                      <button
+                        mat-mini-fab
+                        color="primary"
+                        (click)="AddNewRoomGroup(template)"
+                      >
+                        <mat-icon class="col-white">add</mat-icon>
+                      </button>
+                    </li>
+                    <li class="ms-2">
+                      <button
+                        mat-mini-fab
+                        color="warn"
+                        (click)="BulkDeleteRoomGroups()"
+                      >
+                        <mat-icon class="col-white">delete</mat-icon>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                <ngx-datatable
+                  #table
+                  class="material"
+                  [rows]="dt_datas"
+                  [columns]="columns"
+                  [columnMode]="ColumnMode.flex"
+                  [sortType]="'multi'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'60'"
+                  [limit]="10"
+                  [selected]="selected"
+                  (select)="onSelect($event)"
+                  [selectAllRowsOnPage]="false"
+                  [selectionType]="SelectionType.checkbox"
+                >
+                  <ngx-datatable-column
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                    [resizeable]="false"
+                    [headerCheckboxable]="true"
+                    [checkboxable]="true"
+                    [flexGrow]="1"
+                  >
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="name" [flexGrow]="8">
+                    <ng-template
+                      let-column="column"
+                      ngx-datatable-header-template
+                      >Group Name</ng-template
+                    >
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <!-- action buttons -->
+                  <ngx-datatable-column
+                    name="Actions"
+                    sortable="false"
+                    [flexGrow]="1"
+                  >
+                    <ng-template
+                      let-value="value"
+                      let-row="row"
+                      let-rowIndex="rowIndex"
+                      ngx-datatable-cell-template
+                    >
+                      <span>
+                        <button
+                          mat-icon-button
+                          (click)="EditRoomGroup(row, template)"
+                        >
+                          <mat-icon>mode_edit</mat-icon>
+                        </button>
+                        <button
+                          color="warn"
+                          mat-icon-button
+                          (click)="DeleteRoomGroup(row)"
+                        >
+                          <mat-icon>delete_forever</mat-icon>
+                        </button>
+                      </span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ formCaption }}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Room Group Name</mat-label>
+          <input matInput [(ngModel)]="name" required />
+          <mat-error *ngIf="!name"> Room group name is required </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <mat-checkbox
+        [(ngModel)]="allRoom"
+        class="example-margin ms-0"
+        (click)="AddRemoveAllRooms(!allRoom)"
+        >All Rooms</mat-checkbox
+      >
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <mat-label>Select rooms</mat-label>
+      </div>
+    </div>
+    <div *ngIf="allRoom == false">
+      <div class="row">
+        <div
+          *ngFor="let item of roomsList"
+          class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"
+        >
+          <mat-checkbox
+            class="example-margin ms-0"
+            [(ngModel)]="item.isSelected"
+            [ngModelOptions]="{ standalone: true }"
+            (click)="AddRemoveRooms(!item.isSelected, item.id)"
+            >{{ item.name }}</mat-checkbox
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="example-button-row">
+      <button
+        type="submit"
+        color="primary"
+        mat-raised-button
+        (click)="SaveRoomGroups()"
+        [disabled]="!name || !IsFormValid"
+      >
+        Save
+      </button>
+      <button
+        color="warn"
+        type="button"
+        mat-raised-button
+        (click)="roomGroupModalRef?.hide()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>
+<!-- End : Add/Edit Model -->

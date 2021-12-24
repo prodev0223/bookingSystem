@@ -1,0 +1,6 @@
+<nz-form-item>
+  <nz-form-label  [nzSm]="4" [nzXs]="24"   [nzRequired]="to.required">{{to.label}}</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" >
+    <nz-time-picker nzFormat="HH:mm" [nzMinuteStep]="5" [formControl]="formControl" [formlyAttributes]="field" [nzDisabled]="to.readonly" ></nz-time-picker>
+  </nz-form-control>
+</nz-form-item>

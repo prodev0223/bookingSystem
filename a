@@ -1,0 +1,19 @@
+Cross-Site Scripting: Persistent
+The strings / fields / words that the website are rendering are not user generated. Harmfuls script cannot be added by user.
+
+Insecure Transport: Mail Transmission
+
+Open Redirect:
+All of the url are not user editable.
+
+Privacy Violation:
+
+Fixed we have updated the the smtp password page,
+Previous version:
+Password will show to end user
+
+Updated version:
+Password is always required for smtp settings
+
+SQL Injection
+The user input strings are already escaped in our code.

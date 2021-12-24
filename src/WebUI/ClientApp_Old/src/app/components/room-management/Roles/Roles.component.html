@@ -1,0 +1,186 @@
+<br />
+
+<div class="container">
+  <div class="form-row d-flex justify-content-start">
+    <div class="col-auto form-group">
+      <button
+        type="button"
+        title="Add New"
+        class="btn btn-sm btn-primary"
+        (click)="AddNewUserRole(template)"
+      >
+        New
+      </button>
+    </div>
+    <div class="col-auto form-group">
+      <button class="btn btn-sm btn-danger" (click)="BulkDeleteUserRole()">
+        Delete selected
+      </button>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col from-group table-responsive">
+      <table
+        datatable="ng"
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="table table-striped table-bordered"
+      >
+        <thead>
+          <tr>
+            <th style="width: 10%">
+              <div class="form-check">
+                <input
+                  id="checkAll"
+                  type="checkbox"
+                  (change)="checkAll()"
+                  class="form-check-input"
+                  [(ngModel)]="IsCheckAll"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </th>
+            <th>Name</th>
+            <th style="width: 10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let itemData of dt_datas">
+            <td class="align-items-center">
+              <input
+                type="checkbox"
+                value="item.Pick"
+                [disabled]="itemData.id == 1"
+                [(ngModel)]="itemData.isChecked"
+              />
+            </td>
+            <td>{{ itemData.name }}</td>
+
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-dark"
+                (click)="EditUserRole(itemData, template)"
+              >
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button
+                type="button"
+                *ngIf="itemData.id != 1"
+                (click)="DeleteUserRole(itemData)"
+                class="ml-1 btn btn-sm btn-outline-danger"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ formCaption }}</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="roleGroupModalRef?.hide()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <form [formGroup]="userRoleForm">
+          <div class="row">
+            <div class="col-12 form-group required">
+              <div class="row">
+                <div class="col-3">
+                  <label class="control-label"> User Role: </label>
+                </div>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                  />
+                  <div
+                    *ngIf="fh.isRequired('roomSetId')"
+                    class="alert alert-danger"
+                  >
+                    Please enter User Role!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 form-group required">
+              <label class="control-label">Room Set id: </label>
+            </div>
+            <div class="col-9">
+              <select class="form-control" formControlName="roomSetId">
+                <option
+                  *ngFor="let _option of roomsList"
+                  [ngValue]="_option.id"
+                >
+                  {{ _option.name }}
+                </option>
+              </select>
+              <div
+                *ngIf="fh.isRequired('roomSetId')"
+                class="alert alert-danger"
+              >
+                Please select Room Set id!
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 form-group required">
+              <label class="control-label">Permission Set id: </label>
+            </div>
+            <div class="col-9">
+              <select class="form-control" formControlName="permissionSetId">
+                <option
+                  *ngFor="let _option of permissionsList"
+                  [ngValue]="_option.id"
+                >
+                  {{ _option.name }}
+                </option>
+              </select>
+              <div
+                *ngIf="fh.isRequired('permissionSetId')"
+                class="alert alert-danger"
+              >
+                Please select Permission Set id!
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-sm btn-success"
+        (click)="SaveUserRole()"
+        [disabled]="!userRoleForm.valid"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-warning"
+        (click)="roleGroupModalRef?.hide()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,95 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~winbox/dist/css/winbox.min.css";
+/* Provide sufficient contrast against white background */
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.myHomePageGrid {
+  height: calc(100vh - 62px);
+}
+
+.modal-header {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  padding-left: 10px;
+  cursor: move;
+  height: 60px;
+  background: rgb(24, 144, 255) none repeat scroll 0% 0%;
+}
+
+.modal-title {
+  color: white;
+}
+:host {
+  display: contents;
+}
+
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}
+
+.form-group.required .col-form-label:after {
+  content: "*";
+  color: red;
+}
+
+.form-row.required .col-form-label:after {
+  content: "*";
+  color: red;
+}
+
+.form-row.required .control-label:after {
+  content: "*";
+  color: red;
+}
+
+.form-check.required .form-check-label:after {
+  content: "*";
+  color: red;
+}
+
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html,
+body {
+  height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.wb-full {
+  display: none;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";

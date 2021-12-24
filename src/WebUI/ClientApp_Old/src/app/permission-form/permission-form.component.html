@@ -1,0 +1,8 @@
+<p>permission-form works!</p>
+<p-pickList [source]="list1" [target]="list2" [responsive]="true" [dragdrop]="true">
+    <ng-template let-permission pTemplate="item">
+        <div>
+            <div  class="text-1xl">{{permission.name}}</div>
+        </div>
+    </ng-template>
+</p-pickList>

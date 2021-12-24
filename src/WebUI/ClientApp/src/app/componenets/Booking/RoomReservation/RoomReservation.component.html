@@ -1,0 +1,288 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Room Reservation</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/roomreservation">
+                <i class="fas fa-home"></i> Home</a
+              >
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a onClick="return false;">Room Reservation</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-xl-3 col-sm-3">
+        <mat-button-toggle-group
+          name="fontStyle"
+          appearance="fill"
+          aria-label="Font Style"
+          [(ngModel)]="selDateMode"
+        >
+          <mat-button-toggle value="D" (click)="setCalenderView('D')"
+            >Daily</mat-button-toggle
+          >
+          <mat-button-toggle value="W" (click)="setCalenderView('W')"
+            >Weekly</mat-button-toggle
+          >
+          <mat-button-toggle value="M" (click)="setCalenderView('M')"
+            >Monthly</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+        <br />
+        <div
+          class="row mt-3"
+          style="margin-left: -29px !important; margin-top: 30px !important"
+        >
+          <div class="col-xs-12 col-12 form-group">
+            <nz-date-picker
+              nzInline
+              style="z-index: 0"
+              [nzMode]="calendarView"
+              [(ngModel)]="selectedDate"
+              (ngModelChange)="onDateChange($event)"
+            ></nz-date-picker>
+          </div>
+        </div>
+        <div class="row" *ngIf="selDateMode == 'D'">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <mat-form-field class="example-full-width mb-3">
+              <mat-label>Search Rooms</mat-label>
+              <input
+                matInput
+                [(ngModel)]="searchRoom"
+                (ngModelChange)="filterRooms()"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div
+          *ngIf="selDateMode != 'D'"
+          class="form-group col-md-12 col-lg-12 col-sm-12"
+        >
+          <p class="fw-bold">Rooms</p>
+          <ng-select
+            [items]="roomsList"
+            bindLabel="name"
+            bindValue="id"
+            placement="bottom"
+            tooltip="Type to search room by name."
+            [clearable]="false"
+            bindLabel="name"
+            [(ngModel)]="selRoomId"
+            (ngModelChange)="onRoomSelected()"
+          ></ng-select>
+        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Available</mat-label>
+          <input
+            matInput
+            [cpPosition]="'top-right'"
+            [(ngModel)]="availableColor"
+            [colorPicker]="availableColor"
+            [(colorPicker)]="availableColor"
+            [style.background]="availableColor"
+            (colorPickerChange)="onColorSelected()"
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Confirmed</mat-label>
+          <input
+            matInput
+            [cpPosition]="'top-right'"
+            [(ngModel)]="confirmedColor"
+            [colorPicker]="confirmedColor"
+            [(colorPicker)]="confirmedColor"
+            [style.background]="confirmedColor"
+            (colorPickerChange)="onColorSelected()"
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Unavailable</mat-label>
+          <input
+            matInput
+            [cpPosition]="'top-right'"
+            [(ngModel)]="unavailableColor"
+            [colorPicker]="unavailableColor"
+            [(colorPicker)]="unavailableColor"
+            [style.background]="unavailableColor"
+            (colorPickerChange)="onColorSelected()"
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Closed</mat-label>
+          <input
+            matInput
+            [cpPosition]="'top-right'"
+            [(ngModel)]="closedColor"
+            [colorPicker]="closedColor"
+            [(colorPicker)]="closedColor"
+            [style.background]="closedColor"
+            (colorPickerChange)="onColorSelected()"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-md-9 col-lg-9 col-xl-9 col-sm-9">
+        <full-calendar
+          #fullCalendar
+          [options]="calendarOptions"
+        ></full-calendar>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ formCaption }}</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="roomForm">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Room Name</mat-label>
+            <mat-select required formControlName="roomId">
+              <mat-option *ngFor="let item of roomsList" [value]="item.id">
+                {{ item.name }}
+              </mat-option>
+              <mat-error *ngIf="fh.isRequired('roomId')">
+                Please select room
+              </mat-error>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              required
+              formControlName="sel_date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="year"></mat-datepicker>
+            <mat-error *ngIf="fh.isRequired('sel_date')">
+              Please select date
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+          <label class="col-sm-2 col-form-label">Start</label>
+          <mat-form-field class="example-full-width mb-3">
+            <input
+              matInput
+              formControlName="start_time"
+              [owlDateTime]="startTimer"
+              [owlDateTimeTrigger]="startTimer"
+            />
+            <mat-icon
+              matSuffix
+              [owlDateTimeTrigger]="endTimer"
+              class="date-icon"
+              >schedule</mat-icon
+            >
+            <owl-date-time
+              [pickerType]="'timer'"
+              [stepMinute]="5"
+              #startTimer
+            ></owl-date-time>
+            <mat-error *ngIf="fh.isRequired('start_time')">
+              Please select start time
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+          <label class="col-sm-2 col-form-label">End</label>
+          <mat-form-field class="example-full-width mb-3">
+            <input
+              matInput
+              formControlName="end_time"
+              [owlDateTime]="endTimer"
+              [owlDateTimeTrigger]="endTimer"
+            />
+            <mat-icon
+              matSuffix
+              [owlDateTimeTrigger]="endTimer"
+              class="date-icon"
+              >schedule</mat-icon
+            >
+            <owl-date-time
+              [pickerType]="'timer'"
+              [stepMinute]="5"
+              #endTimer
+            ></owl-date-time>
+            <mat-error *ngIf="fh.isRequired('end_time')">
+              Please select end time
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width mb-3">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" required />
+            <mat-error *ngIf="fh.isRequired('description')">
+              Please enter description
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <mat-checkbox class="example-margin" formControlName="markAsClosed"
+            >Mark as closed</mat-checkbox
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="example-button-row">
+      <button
+        type="submit"
+        color="primary"
+        mat-raised-button
+        (click)="SaveBooking()"
+        [disabled]="!roomForm.valid"
+      >
+        Save
+      </button>
+      <button
+        color="warn"
+        type="button"
+        mat-raised-button
+        *ngIf="!showCancel"
+        (click)="roomModalRef?.hide()"
+      >
+        Close
+      </button>
+      <button
+        color="warn"
+        type="button"
+        *ngIf="showCancel"
+        mat-raised-button
+        (click)="BookingCancel()"
+      >
+        Cancel Booking
+      </button>
+    </div>
+  </div>
+</ng-template>
+<!-- End : Add/Edit Model -->

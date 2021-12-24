@@ -1,0 +1,13 @@
+<div *ngIf="isAuthenticated | async">
+  <button pButton pRipple type="button" label="Hi {{ userName | async }}" class="p-button-text p-button-secondary"></button>
+  <!--
+  <button pButton pRipple type="button" label="Manage" class="p-button-text" [routerLink]='["/authentication/profile"]' ></button>
+  -->
+  <button pButton pRipple type="button" label="Logout" class="p-button-text" [routerLink]='["/authentication/logout"]' [state]='{ local: true }'></button>
+</div>
+<div class="p-d-inline" *ngIf="!(isAuthenticated | async)">
+  <!--
+  <button pButton pRipple type="button" label="Register" class="p-button-text" [routerLink]='["/authentication/register"]'></button>
+  -->
+  <button pButton pRipple type="button" label="Login" class="p-button-text" [routerLink]='["/authentication/login"]'></button>
+</div>

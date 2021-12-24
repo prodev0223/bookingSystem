@@ -1,0 +1,154 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ formCaption }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="bsModalRef?.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <form [formGroup]="roomForm">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 form-group required">
+                <div class="row">
+                  <div class="col-3">
+                    <label class="control-label">Room :</label>
+                  </div>
+                  <div class="col-9">
+                    <select
+                      class="form-control"
+                      formControlName="roomId"
+                      [attr.disabled]="allowEdit ? '' : null"
+                    >
+                      <option
+                        *ngFor="let _opdata_ of roomsList"
+                        [ngValue]="_opdata_.id"
+                      >
+                        {{ _opdata_.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 form-group required">
+                <div class="row">
+                  <div class="col-3">
+                    <label class="control-label"> Date: </label>
+                  </div>
+                  <div class="col-9">
+                    <p-calendar
+                      inputId="timeonly"
+                      formControlName="sel_date"
+                    ></p-calendar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 form-group required">
+                <div class="row">
+                  <div class="col-3">
+                    <label class="control-label">Start :</label>
+                  </div>
+                  <div class="col-9">
+                    <p-calendar
+                      [timeOnly]="true"
+                      [stepMinute]="5"
+                      inputId="timeonly"
+                      formControlName="start_time"
+                      [styleClass]="'calender-height'"
+                    ></p-calendar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 form-group required">
+                <div class="row">
+                  <div class="col-3">
+                    <label class="control-label"> End: </label>
+                  </div>
+                  <div class="col-9">
+                    <p-calendar
+                      [timeOnly]="true"
+                      [stepMinute]="5"
+                      inputId="timeonly"
+                      formControlName="end_time"
+                    ></p-calendar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row required">
+          <label class="control-label">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="description"
+          />
+        </div>
+        <div class="form-group row">
+          <div class="col col-form-label">
+            <div class="form-check form-check-inline mr-1">
+              <label class="form-check-label" for="chkMarkAsClosed"
+                >Mark as closed :</label
+              >
+              <input
+                type="checkbox"
+                id="chkMarkAsClosed"
+                class="form-check-input ml-2"
+                formControlName="markAsClosed"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="submit"
+        (click)="SaveBooking()"
+        class="btn btn-sm btn-success"
+        [disabled]="!roomForm.valid"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        *ngIf="!showCancel"
+        (click)="bsModalRef?.hide()"
+        class="btn btn-sm btn-warning"
+      >
+        Close
+      </button>
+      <button
+        type="button"
+        *ngIf="showCancel"
+        (click)="BookingCancel()"
+        class="btn btn-sm btn-danger"
+      >
+        Cancel Booking
+      </button>
+    </div>
+  </div>
+</div>

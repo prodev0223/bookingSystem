@@ -1,0 +1,26 @@
+<div class="m-4">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <formly-form [form]="form" [fields]="fields" [(model)]="model"></formly-form>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="4" [nzSpan]="12">
+        <button
+          nzSize="large"
+          nzType="primary"
+          nz-button
+          type="submit"
+          [disabled]="submitButtonDisabled"
+          [hidden]="!showCreateUpdate"
+        >{{submitLabel}}</button>
+        <button
+          nzDanger
+          nzSize="large"
+          nzType="primary"
+          (click)="bookingCancel()"
+          [hidden]="!showCancel"
+          nz-button type="button"
+        >Cancel booking
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

@@ -1,0 +1,71 @@
+<br />
+<div class="container">
+  <form class="example-form" [formGroup]="extraFieldForm">
+    <div
+      *ngFor="let group of fieldArray.controls; let iIndex = index"
+      formArrayName="roomExtraInfoTemplate"
+    >
+      <div [formGroupName]="iIndex">
+        <div class="row" id="divExtraFields">
+          <div class="col-5">
+            <div class="form-group required row">
+              <label for="name-input" class="col-md-2 col-form-label"
+                >Name:</label
+              >
+              <div class="col-md-10">
+                <input
+                  type="text"
+                  id="name-input"
+                  name="name-input"
+                  placeholder="Name"
+                  class="form-control"
+                  formControlName="key"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-group required row">
+              <label for="disabled-input" class="col-md-2 col-form-label"
+                >Type:</label
+              >
+              <div class="col-md-10">
+                <select class="form-control" formControlName="type">
+                  <option value="1" selected>String</option>
+                  <option value="2" selected>Number</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-sm btn-danger" (click)="RemoveField(iIndex)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="form-row d-flex justify-content-start">
+    <div class="col-auto form-group">
+      <button
+        type="button"
+        title="Add New"
+        class="btn btn-sm btn-primary"
+        (click)="AddMoreFields()"
+      >
+        Add more extra fields
+      </button>
+    </div>
+    <div class="col-auto form-group">
+      <button
+        class="btn btn-sm btn-success"
+        (click)="saveExtraFields()"
+        [disabled]="!extraFieldForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

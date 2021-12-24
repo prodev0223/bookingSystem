@@ -1,0 +1,36 @@
+<nz-form-item>
+  <nz-form-label
+    [nzSm]="4"
+    [nzXs]="24"
+    [nzFor]="to.key"
+    [nzRequired]="to.required"
+    [nzTooltipTitle]="to.extraInfo"
+  >
+    {{to.label}}
+  </nz-form-label>
+
+  <nz-form-control
+    [nzValidateStatus]="errorState"
+    [nzSm]="14"
+    [nzXs]="24"
+    [nzErrorTip]="to.errorTip"
+  >
+    <input nz-input [id]="to.key"
+           *ngIf="to.type !== 'number'; else numberTmp"
+           [formControl]="formControl"
+           [type]="to.type || 'text'"
+           [formlyAttributes]="field"
+    />
+    <ng-template #numberTmp>
+      <nz-input-number
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+        [nzMin]="to.min"
+        [nzMax]="to.max"
+        [nzStep]="to.step"
+        [id]="to.key"
+      >
+      </nz-input-number>
+    </ng-template>
+  </nz-form-control>
+</nz-form-item>

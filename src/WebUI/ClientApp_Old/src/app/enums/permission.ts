@@ -1,0 +1,23 @@
+type MyMapLikeType = Record<number, string>;
+export const PermissionMapper : MyMapLikeType = {
+  1:'AllPermission',
+  2:'BookingViewOnly',
+  3:'BookingMakeForMyself',
+  4:'BookingMakeAnyTime',
+  5:'BookingMakeFixedTime',
+  6:'BookingMakeAsOtherUserGroup',
+  7:'BookingModifyCancel',
+  8:'BookingMakeAsOtherUser',
+  9:'BookingApprovalPending',
+  10:'BookingModifyCancelViewRegional',
+  11:'BookingModifyCancelViewAll',
+  12:'BookingViewEquipment',
+  13:'BookingViewAnyBooking',
+  14:'BookingViewMyBooking',
+  100:'BookingExtraItem',
+  110:'FacilityManagement',
+  130:'AccountManagement',
+  190:'SmtpSetting',
+  1000:'ReportsAllUnit',
+  2000:'ReportsOwnUnit',
+};

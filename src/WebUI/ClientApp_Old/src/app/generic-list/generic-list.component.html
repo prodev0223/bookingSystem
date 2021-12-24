@@ -1,0 +1,22 @@
+<!--
+{{pathName}}
+-->
+<div class="p-grid h-5/6" style="height: 95%">
+  <button nzSize="large" nzType="primary" nz-button (click)="newClick()">New</button>
+  <button nzDanger nzSize="large" nzType="primary" [hidden]="!deleteVisible" (click)="deleteClick()" nz-button type="button">{{DeleteLabel}}</button>
+  <!--
+  -->
+  <div class="p-col h-full gridWithoutButton">
+    <ag-grid-angular
+      #aggrid
+      [ngStyle]="{ 'width': '100%'}"
+      class="ag-theme-alpine h-full"
+      [gridOptions]="gridOptions"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [frameworkComponents]="frameworkComponents"
+      (selectionChanged)="onSelectionChanged($event)"
+    >
+    </ag-grid-angular>
+  </div>
+</div>

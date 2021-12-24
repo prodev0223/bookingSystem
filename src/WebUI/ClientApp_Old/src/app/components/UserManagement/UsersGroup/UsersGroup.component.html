@@ -1,0 +1,193 @@
+<br />
+
+<div class="container">
+  <div class="form-row d-flex justify-content-start">
+    <div class="col-auto form-group">
+      <button
+        type="button"
+        title="Add New"
+        class="btn btn-sm btn-primary"
+        (click)="AddNewUserGroup(template)"
+      >
+        New
+      </button>
+    </div>
+    <div class="col-auto form-group">
+      <button class="btn btn-sm btn-danger" (click)="BulkDeleteUserGroups()">
+        Delete selected
+      </button>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col from-group table-responsive">
+      <table
+        datatable="ng"
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="table table-striped table-bordered"
+      >
+        <thead>
+          <tr>
+            <th style="width: 10%">
+              <div class="form-check">
+                <input
+                  id="checkAll"
+                  type="checkbox"
+                  (change)="checkAll()"
+                  class="form-check-input"
+                  [(ngModel)]="IsCheckAll"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </th>
+            <th>Name</th>
+            <th style="width: 10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let itemData of dt_datas">
+            <td class="align-items-center">
+              <input
+                type="checkbox"
+                value="item.Pick"
+                [disabled]="itemData.id == 1"
+                [(ngModel)]="itemData.isChecked"
+              />
+            </td>
+            <td>{{ itemData.name }}</td>
+
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-dark"
+                (click)="EditUserGroup(itemData, template)"
+              >
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button
+                type="button"
+                *ngIf="itemData.id != 1"
+                (click)="DeleteUserGroup(itemData)"
+                class="ml-1 btn btn-sm btn-outline-danger"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Start : Add/Edit Model -->
+<ng-template #template>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ formCaption }}</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="userGRoupModalRef?.hide()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="tab-panel">
+          <tabset class="member-tabset" #formTabs>
+            <tab heading="Basic Info" id="tabBasicInfo">
+              <div class="row">
+                <div class="col-12 form-group required">
+                  <div class="row">
+                    <div class="col-3">
+                      <label class="control-label"> User Group Name: </label>
+                    </div>
+                    <div class="col-9">
+                      <input
+                        type="text"
+                        [(ngModel)]="name"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tab>
+            <tab heading="User List" [disabled]="!this.name">
+              <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <label class="control-label"
+                    ><strong> User in this group</strong></label
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-auto form-group">
+                  <div class="form-check" *ngFor="let item of simpleUsers">
+                    <input
+                      type="checkbox"
+                      [id]="item.userId"
+                      name="chkSimpleUsers"
+                      class="form-check-input"
+                      [(ngModel)]="item.isSelected"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                    <label class="form-check-label" [for]="item.userId">{{
+                      item.username
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+            </tab>
+            <tab heading="User Role List"
+              ><div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <label class="control-label"
+                    ><strong> Select Multiple</strong></label
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-auto form-group">
+                  <div class="form-check" *ngFor="let item of userRoles">
+                    <input
+                      [id]="item.id"
+                      type="checkbox"
+                      name="chkUserRoles"
+                      class="form-check-input"
+                      [(ngModel)]="item.isSelected"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                    <label class="form-check-label" [for]="item.id">{{
+                      item.name
+                    }}</label>
+                  </div>
+                </div>
+              </div></tab
+            >
+          </tabset>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        [disabled]="!name"
+        (click)="SaveUserGroups()"
+        class="btn btn-sm btn-success"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-warning"
+        (click)="userGRoupModalRef?.hide()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

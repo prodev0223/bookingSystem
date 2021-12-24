@@ -1,0 +1,48 @@
+<div class="m-4">
+  <form class="example-form" [formGroup]="userForm" nz-form (ngSubmit)="submitForm()">
+    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }" class=""
+      *ngFor="let group of addressArray.controls; let i = index;" formArrayName="roomExtraInfoTemplate">
+      <div [formGroupName]='i' nz-form nzLayout="inline">
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="null" nzRequired>Name</nz-form-label>
+          <nz-form-control [nzSpan]="null" nzErrorTip="Input Name">
+            <input class="" nz-input placeholder="placeholder" value="" formControlName="key" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="w-40">
+
+          <nz-form-label nzRequired>Type</nz-form-label>
+          <nz-form-control nzErrorTip="Field Type">
+            <nz-select formControlName="type" nzPlaceHolder="Select a field type">
+              <nz-option [nzValue]="1" nzLabel="String"></nz-option>
+              <nz-option [nzValue]="2" nzLabel="Number"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <button nz-button nzType="primary" (click)="removeAddress(i)" nzDanger>Remove</button>
+        </nz-form-item>
+      </div>
+      <br>
+    </nz-form-control>
+    <br>
+    <div>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+        <button nz-button nzType="primary" (click)="addAddress($event)">Add more fields</button>
+      </nz-form-control>
+    </div>
+   
+    <br>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+        <button [nzLoading]="isUploadingForm" nz-button nzType="primary">Submit</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <span *ngIf="credentials.errors">
+    Name has to be unique
+  </span>
+</div>

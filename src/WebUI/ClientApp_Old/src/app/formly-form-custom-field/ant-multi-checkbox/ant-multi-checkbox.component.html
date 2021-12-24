@@ -1,0 +1,22 @@
+<nz-form-control [nzSpan]="8" [nzOffset]="4">
+  <nz-descriptions [nzTitle]="to.label"></nz-descriptions>
+</nz-form-control>
+<nz-checkbox-wrapper style="width: 100%;" (nzOnChange)=" antChange($event)">
+  <div>
+    <div
+      nz-col
+      *ngFor="let option of to.options | formlySelectOptions: field | async; let i = index"
+      class=""
+      [ngClass]="{
+        'form-check-inline': to.formCheck === 'inline' || to.formCheck === 'inline-switch',
+        'form-switch': to.formCheck === 'switch' || to.formCheck === 'inline-switch'
+      }"
+    >
+      <nz-form-control [nzSpan]="8" [nzOffset]="4">
+        <label
+          nz-checkbox [nzValue]="option.value" [for]="id + '_' + i"
+          [ngModel]="isChecked(option)">{{ option.label }}</label>
+      </nz-form-control>
+    </div>
+  </div>
+</nz-checkbox-wrapper>
